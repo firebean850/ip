@@ -29,11 +29,9 @@ public class Yun {
                     running = false;
                     break;
                 case "list":
+                    System.out.println("Here are the tasks in your list:\n");
                     for (int i = 0; i < count; i++) {
-                        System.out.printf("%d.%s %s%n", i+1, 
-                            taskList[i].getCompletionStatus(), 
-                            taskList[i].getTask()
-                        );
+                        System.out.println((i+1) + "." + taskList[i].toString());
                     }
                     System.out.println("\n" + line);
                     break;
@@ -44,7 +42,7 @@ public class Yun {
                         break;
                     }
                     taskList[taskNumber-1].markComplete();
-                    System.out.println("Nice! I've marked this task as done:\n\n[X] " + taskList[taskNumber-1].getTask() + 
+                    System.out.println("Nice! I've marked this task as done:\n\n" + taskList[taskNumber-1].toString() + 
                         "\n" + line);
                     break;
                 case "unmark":
@@ -54,8 +52,36 @@ public class Yun {
                         break;
                     }
                     taskList[taskNo-1].markIncomplete();
-                    System.out.println("OK, I've marked this task as not done yet:\n[] " + 
-                        taskList[taskNo-1].getTask() + "\n" + line);
+                    System.out.println("OK, I've marked this task as not done yet:\n\n" + 
+                        taskList[taskNo-1].toString() + "\n" + line);
+                    break;
+                case "todo":
+                    taskList[count++] = new Todo(input.split("todo ")[1].trim());
+                    System.out.println("Got it. I've added this task:\n" + 
+                        taskList[count-1].toString() + 
+                        "\nNow you have " + count + " tasks in the list." + "\n" + line);
+                    break;
+                case "deadline":
+                    if (!input.contains("/by")) {
+                        System.out.println("Sorry, please provide a due date for the deadline command in this format:\n" + 
+                            "deadline <task desc> /by <due date> without angular brackets.");
+                        break;
+                    }
+                    taskList[count++] = new Deadline(input.split("deadline ")[1].trim());
+                    System.out.println("Got it. I've added this task:\n" + 
+                        taskList[count-1].toString() + 
+                        "\nNow you have " + count + " tasks in the list." + "\n" + line);
+                    break;
+                case "event":
+                    if (!input.contains("/from") || !input.contains("/to") ) {
+                        System.out.println("Sorry, please provide a start and end date/time for the event command in this format:\n" + 
+                            "event <task desc> /from <start> /to <end> without angular brackets.");
+                        break;
+                    }
+                    taskList[count++] = new Event(input.split("event ")[1].trim());
+                    System.out.println("Got it. I've added this task:\n" + 
+                        taskList[count-1].toString() + 
+                        "\nNow you have " + count + " tasks in the list." + "\n" + line);
                     break;
                 default:
                     taskList[count++] = new Task(input);

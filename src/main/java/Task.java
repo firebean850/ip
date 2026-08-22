@@ -19,5 +19,10 @@ public class Task {
     public String getTask() {
         return this.task;
     }
+
+    @Override
+    public String toString() {
+        return this.getCompletionStatus() + " " + this.task;
+    }
     
 }
