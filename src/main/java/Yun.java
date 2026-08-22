@@ -5,7 +5,7 @@ public class Yun {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         String line = "=".repeat(60) + "\n";
-        String[] tasklist = new String[100];
+        Task[] taskList = new Task[100];
         int count = 0;
 
         String banner = "\\ \\ / /| | | || \\ | |\n"
@@ -18,7 +18,9 @@ public class Yun {
         String exitMessage = "Bye. Hope to see you again soon!\n";
         boolean running = true;
         while (running) {
-            String command = scanner.nextLine();
+            String input = scanner.nextLine();
+            String[] parsedInput = input.split(" ", 2);
+            String command = parsedInput[0];
             System.out.println(line);
             switch (command) {
                 case "bye":
@@ -28,13 +30,36 @@ public class Yun {
                     break;
                 case "list":
                     for (int i = 0; i < count; i++) {
-                        System.out.printf("%d. %s%n", i+1, tasklist[i]);
+                        System.out.printf("%d.%s %s%n", i+1, 
+                            taskList[i].getCompletionStatus(), 
+                            taskList[i].getTask()
+                        );
                     }
                     System.out.println("\n" + line);
                     break;
+                case "mark":
+                    int taskNumber = Integer.parseInt(parsedInput[1]);
+                    if (taskNumber > count || taskNumber < 0) {
+                        System.out.println("Sorry, the task number you entered was invalid. Please try again.\n" + line);
+                        break;
+                    }
+                    taskList[taskNumber-1].markComplete();
+                    System.out.println("Nice! I've marked this task as done:\n\n[X] " + taskList[taskNumber-1].getTask() + 
+                        "\n" + line);
+                    break;
+                case "unmark":
+                    int taskNo = Integer.parseInt(parsedInput[1]);
+                    if (taskNo > count || taskNo < 0) {
+                        System.out.println("Sorry, the task number you entered was invalid.");
+                        break;
+                    }
+                    taskList[taskNo-1].markIncomplete();
+                    System.out.println("OK, I've marked this task as not done yet:\n[] " + 
+                        taskList[taskNo-1].getTask() + "\n" + line);
+                    break;
                 default:
-                    tasklist[count++] = command;
-                    System.out.println("added: " + command + "\n\n" + line);
+                    taskList[count++] = new Task(input);
+                    System.out.println("added: " + input + "\n\n" + line);
 
             }
         }
