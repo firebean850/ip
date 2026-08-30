@@ -1,12 +1,17 @@
 package chatbot;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 /**
  * An Event is a Task that lasts from a given start date/time 
  * to a given end date/time.
  */
 public class Event extends Task {
-    private String start;
-    private String end;
+    private LocalDateTime start;
+    private LocalDateTime end;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
     /**
      * Creates an Event object.
@@ -18,10 +23,15 @@ public class Event extends Task {
     public Event(String input) {
         super(input.split("/from|/to")[0].trim());
         String[] splittedInput = input.split("/from|/to");
-        String start = splittedInput[1].trim();
-        String end = splittedInput[2].trim();
-        this.start = start;
-        this.end = end;
+        String startString = splittedInput[1].trim();
+        String endString = splittedInput[2].trim();
+        try {
+            this.start = LocalDateTime.parse(startString, FORMATTER);
+            this.end = LocalDateTime.parse(endString, FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new InvalidInputException("Invalid datetime format. Please input the datetimes in this format:\n"
+                + "YYYY-MM-DD HHMM");
+        }
     }
 
     /**
@@ -32,24 +42,30 @@ public class Event extends Task {
      * @param start Start time of event.
      * @param start End time of event.
      */
-    public Event(String task, String start, String end) {
+    public Event(String task, String startString, String endString) {
         super(task);
-        this.start = start;
-        this.end = end;
+        try {
+            this.start = LocalDateTime.parse(startString, FORMATTER);
+            this.end = LocalDateTime.parse(endString, FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new InvalidInputException("Invalid datetime format. Please input the datetimes in this format:\n"
+                + "YYYY-MM-DD HHMM");
+        }
     }
 
-    public String getStart() {
+    public LocalDateTime getStart() {
         return this.start;
     }
 
-    public String getEnd() {
+    public LocalDateTime getEnd() {
         return this.end;
     }
 
     @Override 
     public String toString() {
+        DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a");
         return "[E] " + this.getCompletionStatus() + " " + this.getTask() + 
-            " (from: " + start + " to: " + end + ")";
+            " (from: " + start.format(displayFormatter) + " to: " + end.format(displayFormatter) + ")";
     }
     
 }

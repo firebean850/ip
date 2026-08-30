@@ -1,17 +1,22 @@
 package chatbot;
 
-import java.util.stream.*;
 import java.io.IOException;
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.stream.Stream;
+import java.util.Scanner;
 
 /**
  * Yun is an interactive chatbot.
  */
 public class Yun {
+    private static final DateTimeFormatter FILE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+
 
     /**
      * Syncs the file from harddisk into the taskList.
@@ -54,16 +59,46 @@ public class Yun {
                 } else if (curr instanceof Event) {
                     Event currEvent = (Event) curr;
                     writer.write("E|" + currEvent.getCompletionStatus() + "|" + currEvent.getTask()
-                        + "|" + currEvent.getStart() + "|" + currEvent.getEnd());
+                        + "|" + currEvent.getStart().format(FILE_FORMATTER) + "|" 
+                        + currEvent.getEnd().format(FILE_FORMATTER));
                 } else {
                     Deadline currDeadline = (Deadline) curr;
                     writer.write("D|" + currDeadline.getCompletionStatus() + "|" + currDeadline.getTask()
-                        + "|" + currDeadline.getDeadline());
+                        + "|" + currDeadline.getDeadline().format(FILE_FORMATTER));
                 }
                 writer.write(System.lineSeparator());
             }
         } catch (IOException e) {
             System.out.println("Failed to save tasks.");
+        }
+    }
+
+    public static void listTasksOnDate(ArrayList<Task> taskList, String dateText) {
+        try {
+            LocalDate date = LocalDate.parse(dateText, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
+            System.out.println("Here are the list of events and deadlines occurring on " 
+                + date.format(displayFormatter) + ":");
+            int count = 1;
+            for (Task task : taskList) {
+                if (task instanceof Deadline) {
+                    Deadline deadline = (Deadline) task;
+                    if (deadline.getDeadline().toLocalDate().equals(date)) {
+                        System.out.println(count + "." + task);
+                        count++;
+                    }
+                } else if (task instanceof Event) {
+                    Event event = (Event) task;
+                    if (event.getStart().toLocalDate().equals(date) || 
+                        event.getEnd().toLocalDate().equals(date)) {
+                        System.out.println(count + "." + task);
+                        count++;
+                    }
+                }
+
+            }
+        } catch (DateTimeParseException e) {
+            throw new InvalidInputException("Please input a date in the format YYYY-MM-DD");
         }
     }
 
@@ -186,6 +221,14 @@ public class Yun {
                         taskList.remove(taskId-1);
                         syncListToFile(taskList);
                         break;
+                    case "on":
+                        if (parsedInput.length < 2) {
+                            throw new InvalidInputException("Please provide a date in the format YYYY-MM-DD");
+                        }
+                        listTasksOnDate(taskList, parsedInput[1].trim());
+                        System.out.println("\n" + line);
+                        break;
+
                     default:
                         throw new InvalidInputException("Yo! Invalid input bro, please try again!");
                 }

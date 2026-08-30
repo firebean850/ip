@@ -1,10 +1,16 @@
 package chatbot;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
+
 /**
  * A Deadline is a Task with a specified deadline.
  */
 public class Deadline extends Task{
-    private String deadline;
+    private LocalDateTime deadline;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
     /**
      * Creates a Deadline object.
@@ -15,8 +21,14 @@ public class Deadline extends Task{
     public Deadline(String input) {
         super(input.split("/by")[0].trim());
         String[] splittedInput = input.split("/by");
-        String deadline = splittedInput[1].trim();
-        this.deadline = deadline;
+        String deadlineString = splittedInput[1].trim();
+        try {
+            this.deadline = LocalDateTime.parse(deadlineString, FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new InvalidInputException("Invalid datetime format. Please input the datetime in this format:\n"
+                + "YYYY-MM-DD HHMM");
+        }
+        
     }
 
     /**
@@ -26,19 +38,25 @@ public class Deadline extends Task{
      * @param deadline Deadline given.
      */
 
-    public Deadline(String taskDesc, String deadline) {
+    public Deadline(String taskDesc, String deadlineString) {
         super(taskDesc);
-        this.deadline = deadline;
+        try {
+            this.deadline = LocalDateTime.parse(deadlineString, FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new InvalidInputException("Invalid datetime format. Please input the datetime in this format:\n"
+                + "YYYY-MM-DD HHMM");
+        }
     }
 
-    public String getDeadline() {
+    public LocalDateTime getDeadline() {
         return this.deadline;
     }
 
     @Override 
     public String toString() {
+        DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a");
         return "[D] " + this.getCompletionStatus() + " " + this.getTask() + 
-            " (by: " + deadline + ")";
+            " (by: " + deadline.format(displayFormatter) + ")";
     }
     
 }
