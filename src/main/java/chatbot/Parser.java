@@ -131,4 +131,17 @@ public class Parser {
         return parsedInput[1].trim();
     }
 
+    /**
+     * Retrieves the keyword from a find command.
+     * @param input Input string from user.
+     * @return Keyword to search for.
+     */
+    public static String getFindKeyword(String input) {
+        String[] parsedInput = input.split(" ", 2);
+        if (parsedInput.length < 2 || parsedInput[1].trim().isEmpty()) {
+            throw new InvalidInputException("Please provide a keyword after the find command.");
+        }
+        return parsedInput[1].trim();
+    }
+
 }

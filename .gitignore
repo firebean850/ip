@@ -15,8 +15,12 @@ gradle.properties
 *.iml
 bin/
 
+#Codex files
+.codex/skills/present-changes-visually/
+
 # Temp files
 _temp/
 
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
+

@@ -66,6 +66,24 @@ public class Ui {
     }
 
     /**
+     * Lists tasks whose descriptions contain the given keyword, ignoring case.
+     * @param taskList Tasks to search.
+     * @param keyword Text to search for.
+     */
+    public void showMatchingTasks(TaskList taskList, String keyword) {
+        System.out.println("Here are the matching tasks in your list:\n");
+        int count = 1;
+        String searchTerm = keyword.toLowerCase();
+        for (Task task : taskList) {
+            if (task.getTask().toLowerCase().contains(searchTerm)) {
+                System.out.println(count + "." + task);
+                count++;
+            }
+        }
+        System.out.println("\n" + line);
+    }
+
+    /**
      * Prints out a message showing the task is marked successfully as completed.
      * @param task Task to be marked.
      */

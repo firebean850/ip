@@ -27,6 +27,10 @@ public class Yun {
                     case "list":
                         ui.showTasks(taskList);
                         break;
+                    case "find":
+                        String keyword = Parser.getFindKeyword(input);
+                        ui.showMatchingTasks(taskList, keyword);
+                        break;
                     case "mark":
                         int taskNumber = Parser.getMarkOrUnmarkTaskNumber(input);
                         if (taskNumber > taskList.size() || taskNumber <= 0) {
