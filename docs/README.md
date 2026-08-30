@@ -1,30 +1,17 @@
-# Duke User Guide
-
-// Update the title above to match the actual product name
+# Yun User Guide
 
 // Product screenshot goes here
 
-// Product intro goes here
+Yun is an interactive chatbot that allows you to set deadlines, events and todos! 
+You can also mark tasks as complete/incomplete and the list will autosave as a .txt file to your harddisk when there are changes.
 
 ## Adding deadlines
+`deadline /by YYYY-MM-DD HHMM` 
+Example: deadline /by 2026-08-31 0135
 
-// Describe the action and its outcome.
-
-// Give examples of usage
-
-Example: `keyword (optional arguments)`
-
-// A description of the expected outcome goes here
+``` 
+Got it. I've added this task:
+[D] [ ]  (by: 31 Aug 2026 1:35 am)
 
 ```
-expected output
-```
-
-## Feature ABC
-
-// Feature details
-
-
-## Feature XYZ
-
-// Feature details
+Additional features will be added later to the README.
