@@ -1,12 +1,77 @@
+package chatbot;
+
+import java.util.stream.*;
+import java.io.IOException;
+import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.ArrayList;
 
+/**
+ * Yun is an interactive chatbot.
+ */
 public class Yun {
+
+    /**
+     * Syncs the file from harddisk into the taskList.
+     * @param taskList The taskList array to be modified.
+     */
+    public static void syncFileToList(ArrayList<Task> taskList) {
+        if (Files.exists(Paths.get("taskList.txt"))) {
+            try (Stream<String> allLines = Files.lines(Paths.get("taskList.txt"))) {
+                String[] lines = allLines.toArray(String[]::new);
+                for (int i = 0; i < lines.length; i++) {
+                    String[] parts = lines[i].split("\\|");
+                    if (parts[0].equals("T")){
+                        taskList.add(new Todo(parts[2]));
+                    } else if (parts[0].equals("D")) {
+                        taskList.add(new Deadline(parts[2], parts[3]));
+                    } else {
+                        taskList.add(new Event(parts[2], parts[3], parts[4]));
+                    }
+                    if (parts[1].equals( "[X]")) {
+                            taskList.get(i).markComplete();
+                    }
+                }
+
+            } catch (IOException e){
+                System.out.println("The chatbot has encountered an error. Please try again later.");
+            };
+        }
+    }
+
+    /**
+     * Syncs from the tasklist array into a file. Creates a file if there is no taskList.txt file yet.
+     * @param taskList The created tasklist.
+     */
+    public static void syncListToFile(ArrayList<Task> taskList){
+        try (FileWriter writer = new FileWriter("taskList.txt", false)){
+            for (int i = 0; i < taskList.size(); i++) {
+                Task curr = taskList.get(i);
+                if (curr instanceof Todo) {
+                    writer.write("T|" + curr.getCompletionStatus() + "|" + curr.getTask());
+                } else if (curr instanceof Event) {
+                    Event currEvent = (Event) curr;
+                    writer.write("E|" + currEvent.getCompletionStatus() + "|" + currEvent.getTask()
+                        + "|" + currEvent.getStart() + "|" + currEvent.getEnd());
+                } else {
+                    Deadline currDeadline = (Deadline) curr;
+                    writer.write("D|" + currDeadline.getCompletionStatus() + "|" + currDeadline.getTask()
+                        + "|" + currDeadline.getDeadline());
+                }
+                writer.write(System.lineSeparator());
+            }
+        } catch (IOException e) {
+            System.out.println("Failed to save tasks.");
+        }
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         String line = "=".repeat(70) + "\n";
         ArrayList<Task> taskList = new ArrayList<>();
-
+        syncFileToList(taskList);
         String banner = "\\ \\ / /| | | || \\ | |\n"
               + " \\ V / | | | ||  \\| |\n"
               + "  | |  | |_| || |\\  |\n"
@@ -26,6 +91,7 @@ public class Yun {
                     case "bye":
                     case "Bye":
                         System.out.println(exitMessage + "\n" + line);
+                        syncListToFile(taskList);
                         running = false;
                         break;
                     case "list":
@@ -50,6 +116,7 @@ public class Yun {
                         taskList.get(taskNumber-1).markComplete();
                         System.out.println("Nice! I've marked this task as done:\n" + taskList.get(taskNumber-1).toString() + 
                             "\n\n" + line);
+                        syncListToFile(taskList);
                         break;
                     case "unmark":
                         int taskNo;
@@ -66,6 +133,7 @@ public class Yun {
                         taskList.get(taskNo-1).markIncomplete();
                         System.out.println("OK, I've marked this task as not done yet:\n" + 
                             taskList.get(taskNo-1).toString() + "\n\n" + line);
+                        syncListToFile(taskList);
                         break;
                     case "todo":
                         if (parsedInput.length < 2 || parsedInput[1].trim().isEmpty()) {
@@ -75,6 +143,7 @@ public class Yun {
                         System.out.println("Got it. I've added this task:\n" + 
                             taskList.get(taskList.size()-1).toString() + 
                             "\nNow you have " + taskList.size() + " task(s) in the list." + "\n\n" + line);
+                        syncListToFile(taskList);
                         break;
                     case "deadline":
                         if (!input.contains("/by")) {
@@ -85,6 +154,7 @@ public class Yun {
                         System.out.println("Got it. I've added this task:\n" + 
                             taskList.get(taskList.size()-1).toString() + 
                             "\nNow you have " + taskList.size() + " task(s) in the list." + "\n\n" + line);
+                        syncListToFile(taskList);
                         break;
                     case "event":
                         if (!input.contains("/from") || !input.contains("/to") ) {
@@ -95,6 +165,7 @@ public class Yun {
                         System.out.println("Got it. I've added this task:\n" + 
                             taskList.get(taskList.size()-1).toString() + 
                             "\nNow you have " + taskList.size() + " task(s) in the list." + "\n\n" + line);
+                        syncListToFile(taskList);
                         break;
                     case "delete": 
                         int taskId;
@@ -113,6 +184,7 @@ public class Yun {
                             taskList.get(taskId-1).toString() + 
                             "\nNow you have " + (taskList.size()-1) + " task(s) in the list." + "\n\n" + line);
                         taskList.remove(taskId-1);
+                        syncListToFile(taskList);
                         break;
                     default:
                         throw new InvalidInputException("Yo! Invalid input bro, please try again!");
