@@ -15,27 +15,6 @@ public class Event extends Task {
 
     /**
      * Creates an Event object.
-     * Parses the input string to obtain and update the object with
-     * the correct task description, start time and end time.
-     * 
-     * @param input Input string.
-     */
-    public Event(String input) {
-        super(input.split("/from|/to")[0].trim());
-        String[] splittedInput = input.split("/from|/to");
-        String startString = splittedInput[1].trim();
-        String endString = splittedInput[2].trim();
-        try {
-            this.start = LocalDateTime.parse(startString, FORMATTER);
-            this.end = LocalDateTime.parse(endString, FORMATTER);
-        } catch (DateTimeParseException e) {
-            throw new InvalidInputException("Invalid datetime format. Please input the datetimes in this format:\n"
-                + "YYYY-MM-DD HHMM");
-        }
-    }
-
-    /**
-     * Creates an Event object.
      * Takes in given task description, start and end time and updates the object.
      * 
      * @param task Task Description.

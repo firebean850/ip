@@ -13,31 +13,11 @@ public class Deadline extends Task{
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
     /**
-     * Creates a Deadline object.
-     * Parses input string to obtain and update Object with the correct deadline.
-     * 
-     * @param input Input string.
-     */
-    public Deadline(String input) {
-        super(input.split("/by")[0].trim());
-        String[] splittedInput = input.split("/by");
-        String deadlineString = splittedInput[1].trim();
-        try {
-            this.deadline = LocalDateTime.parse(deadlineString, FORMATTER);
-        } catch (DateTimeParseException e) {
-            throw new InvalidInputException("Invalid datetime format. Please input the datetime in this format:\n"
-                + "YYYY-MM-DD HHMM");
-        }
-        
-    }
-
-    /**
      * Creates a Deadline object with the given deadline and task description.
      * 
      * @param taskDesc Task description.
      * @param deadline Deadline given.
      */
-
     public Deadline(String taskDesc, String deadlineString) {
         super(taskDesc);
         try {
