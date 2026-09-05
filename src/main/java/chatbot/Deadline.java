@@ -8,13 +8,13 @@ import java.time.format.DateTimeParseException;
 /**
  * A Deadline is a Task with a specified deadline.
  */
-public class Deadline extends Task{
-    private LocalDateTime deadline;
+public class Deadline extends Task {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+    private LocalDateTime deadline;
 
     /**
      * Creates a Deadline object with the given deadline and task description.
-     * 
+     *
      * @param taskDesc Task description.
      * @param deadline Deadline given.
      */
@@ -32,11 +32,11 @@ public class Deadline extends Task{
         return this.deadline;
     }
 
-    @Override 
+    @Override
     public String toString() {
         DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a");
-        return "[D] " + this.getCompletionStatus() + " " + this.getTask() + 
-            " (by: " + deadline.format(displayFormatter) + ")";
+        return "[D] " + this.getCompletionStatus() + " " + this.getTask()
+            + " (by: " + deadline.format(displayFormatter) + ")";
     }
-    
+
 }

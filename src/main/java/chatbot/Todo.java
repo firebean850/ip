@@ -7,14 +7,13 @@ public class Todo extends Task {
 
     /**
      * Initialises a new Todo with the given input as the task description.
-     * 
      * @param input
      */
     public Todo(String input) {
         super(input);
     }
 
-    @Override 
+    @Override
     public String toString() {
         return "[T] " + this.getCompletionStatus() + " " + this.getTask();
     }

@@ -5,21 +5,21 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 /**
- * An Event is a Task that lasts from a given start date/time 
+ * An Event is a Task that lasts from a given start date/time
  * to a given end date/time.
  */
 public class Event extends Task {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private LocalDateTime start;
     private LocalDateTime end;
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
     /**
      * Creates an Event object.
      * Takes in given task description, start and end time and updates the object.
-     * 
+     *
      * @param task Task Description.
-     * @param start Start time of event.
-     * @param start End time of event.
+     * @param startString Start time of event.
+     * @param endString End time of event.
      */
     public Event(String task, String startString, String endString) {
         super(task);
@@ -40,11 +40,12 @@ public class Event extends Task {
         return this.end;
     }
 
-    @Override 
+    @Override
     public String toString() {
         DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a");
-        return "[E] " + this.getCompletionStatus() + " " + this.getTask() + 
+        return "[E] " + this.getCompletionStatus() + " " + this.getTask()
+            +
             " (from: " + start.format(displayFormatter) + " to: " + end.format(displayFormatter) + ")";
     }
-    
+
 }

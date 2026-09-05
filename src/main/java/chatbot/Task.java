@@ -15,40 +15,38 @@ public class Task {
         this.task = input;
         this.completed = false;
     }
-    
+
     /**
      * Marks the task as complete.
-     * 
-     * @param none
      */
     public void markComplete() {
-        if (!this.completed) this.completed = !completed;
+        if (!this.completed) {
+            this.completed = !completed;
+        }
     }
 
     /**
      * Marks the task as incomplete.
-     * 
-     * @param none
      */
     public void markIncomplete() {
-        if (this.completed) this.completed = !completed;
+        if (this.completed) {
+            this.completed = !completed;
+        }
     }
 
     /**
      * Retrieve the task completion status.
-     * 
-     * @param none
      * @return A matching string to indicate if the task is completed or not.
      */
     public String getCompletionStatus() {
-        if (completed) return "[X]"; 
+        if (completed) {
+            return "[X]";
+        }
         return "[ ]";
     }
 
     /**
      * Returns the task description.
-     * 
-     * @param none
      * @return Task description.
      */
     public String getTask() {
@@ -59,5 +57,5 @@ public class Task {
     public String toString() {
         return this.getCompletionStatus() + " " + this.task;
     }
-    
+
 }

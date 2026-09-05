@@ -8,13 +8,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.stream.Stream;
 
 /**
- * The Storage class handles syncing of data to enable saves of task data 
+ * The Storage class handles syncing of data to enable saves of task data
  * onto the hardDisk whenever there are changes to the taskList, and loads
  * existing taskData whenever a new instance of Yun is created.
  */
 public class Storage {
-    private final String filePath;
     private static final DateTimeFormatter FILE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+    private final String filePath;
 
     /**
      * Creates a Storage object with a specified filePath of file used to store data of tasks.
@@ -26,7 +26,6 @@ public class Storage {
 
     /**
      * Syncs the file from harddisk into the taskList.
-     * @param none 
      */
     public TaskList load() {
         TaskList taskList = new TaskList();
@@ -35,21 +34,21 @@ public class Storage {
                 String[] lines = allLines.toArray(String[]::new);
                 for (int i = 0; i < lines.length; i++) {
                     String[] parts = lines[i].split("\\|");
-                    if (parts[0].equals("T")){
+                    if (parts[0].equals("T")) {
                         taskList.add(new Todo(parts[2]));
                     } else if (parts[0].equals("D")) {
                         taskList.add(new Deadline(parts[2], parts[3]));
                     } else {
                         taskList.add(new Event(parts[2], parts[3], parts[4]));
                     }
-                    if (parts[1].equals( "[X]")) {
-                            taskList.get(i).markComplete();
+                    if (parts[1].equals("[X]")) {
+                        taskList.get(i).markComplete();
                     }
                 }
-            } catch (IOException e){
+            } catch (IOException e) {
                 System.out.println("The chatbot has encountered an error. Please try again later.");
-            };
-        } 
+            }
+        }
         return taskList;
     }
 
@@ -57,8 +56,8 @@ public class Storage {
      * Syncs from the tasklist array into a file. Creates a file if there is file with given filepath yet.
      * @param taskList The created tasklist.
      */
-    public void save(TaskList taskList){
-        try (FileWriter writer = new FileWriter(filePath, false)){
+    public void save(TaskList taskList) {
+        try (FileWriter writer = new FileWriter(filePath, false)) {
             for (int i = 0; i < taskList.size(); i++) {
                 Task curr = taskList.get(i);
                 if (curr instanceof Todo) {
@@ -66,7 +65,7 @@ public class Storage {
                 } else if (curr instanceof Event) {
                     Event currEvent = (Event) curr;
                     writer.write("E|" + currEvent.getCompletionStatus() + "|" + currEvent.getTask()
-                        + "|" + currEvent.getStart().format(FILE_FORMATTER) + "|" 
+                        + "|" + currEvent.getStart().format(FILE_FORMATTER) + "|"
                         + currEvent.getEnd().format(FILE_FORMATTER));
                 } else {
                     Deadline currDeadline = (Deadline) curr;
@@ -79,5 +78,5 @@ public class Storage {
             System.out.println("Failed to save tasks.");
         }
     }
-    
+
 }
