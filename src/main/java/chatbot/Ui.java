@@ -60,7 +60,7 @@ public class Ui {
     public void showTasks(TaskList taskList) {
         System.out.println("Here are the tasks in your list:\n");
         for (int i = 0; i < taskList.size(); i++) {
-            System.out.println((i+1) + "." + taskList.get(i).toString());
+            System.out.println((i + 1) + "." + taskList.get(i).toString());
         }
         System.out.println("\n" + line);
     }
@@ -88,8 +88,8 @@ public class Ui {
      * @param task Task to be marked.
      */
     public void showMarked(Task task) {
-        System.out.println("Nice! I've marked this task as done:\n" + task.toString() + 
-            "\n\n" + line);
+        System.out.println("Nice! I've marked this task as done:\n" + task.toString()
+            + "\n\n" + line);
     }
 
     /**
@@ -97,8 +97,8 @@ public class Ui {
      * @param task Task to be unmarked
      */
     public void showUnmarked(Task task) {
-        System.out.println("OK, I've marked this task as not done yet:\n" + 
-            task.toString() + "\n\n" + line);
+        System.out.println("OK, I've marked this task as not done yet:\n"
+            + task.toString() + "\n\n" + line);
     }
 
     /**
@@ -106,10 +106,10 @@ public class Ui {
      * @param task The task to be added.
      * @param size Current number of tasks in list.
      */
-    public void showAdded(Task task, int size){
-        System.out.println("Got it. I've added this task:\n" + 
-            task.toString() + 
-            "\nNow you have " + size + " task(s) in the list." + "\n\n" + line);
+    public void showAdded(Task task, int size) {
+        System.out.println("Got it. I've added this task:\n"
+            + task.toString()
+            + "\nNow you have " + size + " task(s) in the list." + "\n\n" + line);
     }
 
     /**
@@ -118,9 +118,9 @@ public class Ui {
      * @param newSize New number of tasks in list.
      */
     public void showDeleted(Task task, int newSize) {
-        System.out.println("Noted. I've removed this task:\n" + 
-            task.toString() + 
-            "\nNow you have " + newSize + " task(s) in the list." + "\n\n" + line);
+        System.out.println("Noted. I've removed this task:\n"
+            + task.toString()
+            + "\nNow you have " + newSize + " task(s) in the list." + "\n\n" + line);
     }
 
     /**
@@ -133,7 +133,7 @@ public class Ui {
         try {
             LocalDate date = LocalDate.parse(dateText, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
-            System.out.println("Here are the list of events and deadlines occurring on " 
+            System.out.println("Here are the list of events and deadlines occurring on "
                 + date.format(displayFormatter) + ":");
             int count = 1;
             for (Task task : taskList) {
@@ -145,7 +145,8 @@ public class Ui {
                     }
                 } else if (task instanceof Event) {
                     Event event = (Event) task;
-                    if (event.getStart().toLocalDate().equals(date) || 
+                    if (event.getStart().toLocalDate().equals(date)
+                        ||
                         event.getEnd().toLocalDate().equals(date)) {
                         System.out.println(count + "." + task);
                         count++;

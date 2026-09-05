@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * The TaskList class is a wrapper class that manages the list of Tasks 
+ * The TaskList class is a wrapper class that manages the list of Tasks
  */
 public class TaskList implements Iterable<Task> {
     private final ArrayList<Task> tasks = new ArrayList<>();
@@ -17,7 +17,7 @@ public class TaskList implements Iterable<Task> {
         tasks.add(task);
     }
 
-    /** 
+    /**
      * Removes specified task from list.
      * @param index Task index of task to be removed.
      */
@@ -46,5 +46,5 @@ public class TaskList implements Iterable<Task> {
     public Iterator<Task> iterator() {
         return tasks.iterator();
     }
-    
+
 }

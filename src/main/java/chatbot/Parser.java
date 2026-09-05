@@ -4,7 +4,7 @@ package chatbot;
  * The parser class parses input strings from users to retrieve user instructions.
  */
 public class Parser {
-    
+
     /**
      * Parses input string to retrieve command.
      * @param input Input string from user.
@@ -42,15 +42,17 @@ public class Parser {
         int taskId;
         String[] parsedInput = input.split(" ", 2);
         if (parsedInput.length < 2 || parsedInput[1].trim().isEmpty()) {
-            throw new InvalidInputException("Heyo! The description of a delete cannot be empty, and/or the task number " 
-                + "must be more than 0. Please try again, including the task number of the task you want to delete " 
+            throw new InvalidInputException("Heyo! The description of a delete cannot be empty, and/or the task number "
+                + "must be more than 0. Please try again, including the task number of the task you want to delete "
                 + "after the delete command");
-        } else try {
-            taskId = Integer.parseInt(parsedInput[1].trim());
-            return taskId;
-        } catch (NumberFormatException e) {
-            throw new InvalidInputException("HEY! Please key in a number after the delete command.");
-        }   
+        } else {
+            try {
+                taskId = Integer.parseInt(parsedInput[1].trim());
+                return taskId;
+            } catch (NumberFormatException e) {
+                throw new InvalidInputException("HEY! Please key in a number after the delete command.");
+            }
+        }
     }
 
     /**
@@ -73,8 +75,9 @@ public class Parser {
      */
     public static String getDeadlineDescription(String input) {
         if (!input.contains("/by")) {
-            throw new InvalidInputException("Sorry, please provide a due date for the deadline command in this format:\n" + 
-                "deadline <task desc> /by <due date> without angular brackets.");
+            throw new InvalidInputException(
+                "Sorry, please provide a due date for the deadline command in this format:\n"
+                    + "deadline <task desc> /by <due date> without angular brackets.");
         }
         return input.split("deadline ")[1].trim().split("/by")[0].trim();
     }
@@ -93,9 +96,10 @@ public class Parser {
      * @return Description of event.
      */
     public static String getEventDescription(String input) {
-        if (!input.contains("/from") || !input.contains("/to") ) {
-            throw new InvalidInputException("Sorry, please provide a start and end date/time for the event command in this format:\n" + 
-                "event <task desc> /from <start> /to <end> without angular brackets.");
+        if (!input.contains("/from") || !input.contains("/to")) {
+            throw new InvalidInputException(
+                "Sorry, please provide a start and end date/time for the event command in this format:\n"
+                    + "event <task desc> /from <start> /to <end> without angular brackets.");
         }
         return input.split("event ")[1].trim().split("/from|/to")[0].trim();
     }
@@ -108,7 +112,7 @@ public class Parser {
     public static String getEventStart(String input) {
         return input.split("event ")[1].trim().split("/from|/to")[1].trim();
     }
-    
+
     /**
      * Retrieve event end time of event instruction from user input
      * @param input Input string of user.
