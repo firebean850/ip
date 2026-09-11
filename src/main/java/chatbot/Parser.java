@@ -65,7 +65,9 @@ public class Parser {
         if (parsedInput.length < 2 || parsedInput[1].trim().isEmpty()) {
             throw new InvalidInputException("Heyo! The description of a todo cannot be empty. Please try again.");
         }
-        return input.split("todo ")[1].trim();
+        String description = input.split("todo ")[1].trim();
+        assert !description.isEmpty() : "Todo descriptions must be non-empty after validation";
+        return description;
     }
 
     /**
@@ -79,7 +81,9 @@ public class Parser {
                 "Sorry, please provide a due date for the deadline command in this format:\n"
                     + "deadline <task desc> /by <due date> without angular brackets.");
         }
-        return input.split("deadline ")[1].trim().split("/by")[0].trim();
+        String description = input.split("deadline ")[1].trim().split("/by")[0].trim();
+        assert !description.isEmpty() : "Deadline descriptions must be non-empty after parsing";
+        return description;
     }
     /**
      * Retrieves the deadline of a deadline instruction from user input.
@@ -101,7 +105,9 @@ public class Parser {
                 "Sorry, please provide a start and end date/time for the event command in this format:\n"
                     + "event <task desc> /from <start> /to <end> without angular brackets.");
         }
-        return input.split("event ")[1].trim().split("/from|/to")[0].trim();
+        String description = input.split("event ")[1].trim().split("/from|/to")[0].trim();
+        assert !description.isEmpty() : "Event descriptions must be non-empty after parsing";
+        return description;
     }
 
     /**
