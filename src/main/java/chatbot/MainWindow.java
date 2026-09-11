@@ -38,6 +38,7 @@ public class MainWindow extends AnchorPane {
      * @param y Chatbot instance used by this window.
      */
     public void setYun(Yun y) {
+        assert y != null : "MainWindow requires a Yun instance";
         yun = y;
     }
 
