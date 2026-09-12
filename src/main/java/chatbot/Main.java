@@ -13,7 +13,7 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-    private Yun yun = new Yun();
+    private final Yun yun = new Yun();
 
     /**
      * Starts the JavaFX application window and loads its FXML layout.
@@ -25,12 +25,13 @@ public class Main extends Application {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
+            fxmlLoader.<MainWindow>getController().setYun(yun);
+
             Scene scene = new Scene(ap);
             stage.setScene(scene);
-            fxmlLoader.<MainWindow>getController().setYun(yun);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalStateException("Unable to load MainWindow.fxml", e);
         }
     }
 }

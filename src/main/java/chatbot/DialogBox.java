@@ -18,13 +18,18 @@ import javafx.scene.layout.HBox;
  * Represents a dialog box consisting of an ImageView to represent the speaker's face
  * and a label containing text from the speaker.
  */
-
 public class DialogBox extends HBox {
     @FXML
     private Label dialog;
     @FXML
     private ImageView displayPicture;
 
+    /**
+     * Loads the dialog-box layout and populates it with the supplied message and image.
+     *
+     * @param text Message to display.
+     * @param img Image representing the speaker.
+     */
     private DialogBox(String text, Image img) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
@@ -32,7 +37,7 @@ public class DialogBox extends HBox {
             fxmlLoader.setRoot(this);
             fxmlLoader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalStateException("Unable to load DialogBox.fxml", e);
         }
 
         dialog.setText(text);
@@ -69,7 +74,7 @@ public class DialogBox extends HBox {
      * @return Dialog box containing the chatbot's message and image.
      */
     public static DialogBox getYunDialog(String text, Image img) {
-        var db = new DialogBox(text, img);
+        DialogBox db = new DialogBox(text, img);
         db.flip();
         return db;
     }

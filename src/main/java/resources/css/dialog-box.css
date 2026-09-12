@@ -1,5 +1,6 @@
 .label {
     background:black;
+    -fx-font-family: "Monospaced";
     -fx-background-color: background;
     -fx-border-color: #d55e00 #009e73 #cc79a7 #0072b2;
     -fx-border-width: 2px;

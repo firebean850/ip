@@ -1,7 +1,7 @@
 package chatbot;
 
 /**
- * An InvalidInputException is a RuntimeException that is thrown when there are invalid inputs.
+ * An exception thrown when a user provides invalid input.
  */
 public class InvalidInputException extends RuntimeException {
 

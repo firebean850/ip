@@ -1,5 +1,6 @@
 package chatbot;
 
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -8,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * Controller for the main GUI.
@@ -24,9 +26,12 @@ public class MainWindow extends AnchorPane {
 
     private Yun yun;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.jpg"));
-    private Image yunImage = new Image(this.getClass().getResourceAsStream("/images/yun.png"));
+    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.jpg"));
+    private final Image yunImage = new Image(this.getClass().getResourceAsStream("/images/yun.png"));
 
+    /**
+     * Binds the dialog container height to the scroll pane's vertical position.
+     */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
@@ -35,11 +40,14 @@ public class MainWindow extends AnchorPane {
     /**
      * Injects the Yun chatbot instance used to process user input.
      *
-     * @param y Chatbot instance used by this window.
+     * @param chatbot Chatbot instance used by this window.
      */
-    public void setYun(Yun y) {
-        assert y != null : "MainWindow requires a Yun instance";
-        yun = y;
+    public void setYun(Yun chatbot) {
+        assert chatbot != null : "MainWindow requires a Yun instance";
+        yun = chatbot;
+        dialogContainer.getChildren().add(
+            DialogBox.getYunDialog(yun.getWelcomeMessage(), yunImage)
+        );
     }
 
     /**
@@ -49,16 +57,29 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String userText = userInput.getText();
-        String chatbotReply = yun.getResponse(userInput.getText());
+        String chatbotReply = yun.getResponse(userText);
         dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(userText, userImage),
+            DialogBox.getUserDialog(userText, userImage),
                 DialogBox.getYunDialog(chatbotReply, yunImage)
         );
         userInput.clear();
-        if (userText.trim().equalsIgnoreCase("bye")
-                || userText.trim().equalsIgnoreCase("Bye")) {
+        if (userText.trim().equalsIgnoreCase("bye")) {
+            closeAfterDelay();
+        }
+    }
+
+    /**
+     * Disables further input and closes the application after a short delay.
+     */
+    private void closeAfterDelay() {
+        userInput.setDisable(true);
+        sendButton.setDisable(true);
+
+        PauseTransition delay = new PauseTransition(Duration.seconds(1));
+        delay.setOnFinished(event -> {
             Stage stage = (Stage) userInput.getScene().getWindow();
             stage.close();
-        }
+        });
+        delay.play();
     }
 }

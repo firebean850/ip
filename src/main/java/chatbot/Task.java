@@ -1,37 +1,38 @@
 package chatbot;
 
 /**
- * A Task is a class with a given task description and tracks the completion status of the task.
+ * Represents a task with a description and completion status.
  */
 public class Task {
-    private String task;
+    private static final String COMPLETE_INDICATOR = "[X]";
+    private static final String INCOMPLETE_INDICATOR = "[ ]";
+
+    private final String description;
     private boolean completed;
 
     /**
      * Initialises a new Task object with the given task description
-     * @param input Task description.
+     * @param description Task description.
      */
-    public Task(String input) {
-        this.task = input;
-        this.completed = false;
+    public Task(String description) {
+        if (description == null || description.isBlank()) {
+            throw new InvalidInputException("Task description cannot be empty.");
+        }
+        this.description = description.trim();
     }
 
     /**
      * Marks the task as complete.
      */
     public void markComplete() {
-        if (!this.completed) {
-            this.completed = !completed;
-        }
+        completed = true;
     }
 
     /**
      * Marks the task as incomplete.
      */
     public void markIncomplete() {
-        if (this.completed) {
-            this.completed = !completed;
-        }
+        completed = false;
     }
 
     /**
@@ -40,22 +41,27 @@ public class Task {
      */
     public String getCompletionStatus() {
         if (completed) {
-            return "[X]";
+            return COMPLETE_INDICATOR;
         }
-        return "[ ]";
+        return INCOMPLETE_INDICATOR;
     }
 
     /**
      * Returns the task description.
      * @return Task description.
      */
-    public String getTask() {
-        return this.task;
+    public String getDescription() {
+        return this.description;
     }
 
+    /**
+     * Returns the task's completion marker and description.
+     *
+     * @return Formatted task description.
+     */
     @Override
     public String toString() {
-        return this.getCompletionStatus() + " " + this.task;
+        return this.getCompletionStatus() + " " + this.description;
     }
 
 }

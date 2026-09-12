@@ -1,34 +1,38 @@
 package chatbot;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 /**
- * An Event is a Task that lasts from a given start date/time
- * to a given end date/time.
+ * Represents a task that lasts from a given start date/time to a given end date/time.
  */
 public class Event extends Task {
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private final LocalDateTime start;
+    private final LocalDateTime end;
 
     /**
-     * Creates an Event object.
-     * Takes in given task description, start and end time and updates the object.
+     * Takes in given task description, start and end time and creates the object.
      *
-     * @param task Task Description.
-     * @param startString Start time of event.
-     * @param endString End time of event.
+     * @param description Event description.
+     * @param startString Start time in {@code yyyy-MM-dd HHmm} format.
+     * @param endString End time in {@code yyyy-MM-dd HHmm} format.
      */
-    public Event(String task, String startString, String endString) {
-        super(task);
+    public Event(String description, String startString, String endString) {
+        super(description);
+        if (startString == null || startString.isBlank()
+                || endString == null || endString.isBlank()) {
+            throw new InvalidInputException("Invalid datetime format. Please input the datetimes in this format:\n"
+                + DateTimeFormats.INPUT_FORMAT);
+        }
         try {
-            this.start = LocalDateTime.parse(startString, FORMATTER);
-            this.end = LocalDateTime.parse(endString, FORMATTER);
+            this.start = LocalDateTime.parse(startString, DateTimeFormats.STORAGE);
+            this.end = LocalDateTime.parse(endString, DateTimeFormats.STORAGE);
+            if (this.end.isBefore(this.start)) {
+                throw new InvalidInputException("The event end time cannot be before its start time.");
+            }
         } catch (DateTimeParseException e) {
             throw new InvalidInputException("Invalid datetime format. Please input the datetimes in this format:\n"
-                + "YYYY-MM-DD HHMM");
+                + DateTimeFormats.INPUT_FORMAT);
         }
 
         if (this.end.isBefore(this.start)) {
@@ -40,20 +44,33 @@ public class Event extends Task {
         assert !this.end.isBefore(this.start) : "An event must end at or after it starts";
     }
 
+    /**
+     * Returns the date and time at which this event starts.
+     *
+     * @return This event's start date and time.
+     */
     public LocalDateTime getStart() {
         return this.start;
     }
 
+    /**
+     * Returns the date and time at which this event ends.
+     *
+     * @return This event's end date and time.
+     */
     public LocalDateTime getEnd() {
         return this.end;
     }
 
+    /**
+     * Returns the event's type marker, status, description, and time range.
+     *
+     * @return Formatted event description.
+     */
     @Override
     public String toString() {
-        DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a");
-        return "[E] " + this.getCompletionStatus() + " " + this.getTask()
-            +
-            " (from: " + start.format(displayFormatter) + " to: " + end.format(displayFormatter) + ")";
+        return "[E] " + this.getCompletionStatus() + " " + this.getDescription()
+            + " (from: " + start.format(DateTimeFormats.DISPLAY_DATE_TIME) + " to: "
+                + end.format(DateTimeFormats.DISPLAY_DATE_TIME) + ")";
     }
-
 }

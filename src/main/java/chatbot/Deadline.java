@@ -1,44 +1,54 @@
 package chatbot;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
 
 /**
  * A Deadline is a Task with a specified deadline.
  */
 public class Deadline extends Task {
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
-    private LocalDateTime deadline;
+    private final LocalDateTime deadline;
 
     /**
      * Creates a Deadline object with the given deadline and task description.
      *
-     * @param taskDesc Task description.
-     * @param deadline Deadline given.
+     * @param description Task description.
+     * @param deadlineString Deadline in {@code yyyy-MM-dd HHmm} format.
      */
-    public Deadline(String taskDesc, String deadlineString) {
-        super(taskDesc);
+    public Deadline(String description, String deadlineString) {
+        super(description);
+        if (deadlineString == null || deadlineString.isBlank()) {
+            throw new InvalidInputException("Invalid datetime format. Please input the datetime in this format:\n"
+                + DateTimeFormats.INPUT_FORMAT);
+        }
         try {
-            this.deadline = LocalDateTime.parse(deadlineString, FORMATTER);
+            this.deadline = LocalDateTime.parse(deadlineString, DateTimeFormats.STORAGE);
         } catch (DateTimeParseException e) {
             throw new InvalidInputException("Invalid datetime format. Please input the datetime in this format:\n"
-                + "YYYY-MM-DD HHMM");
+                + DateTimeFormats.INPUT_FORMAT);
         }
         // The exception above ensures a Deadline never exists without a parsed date.
         assert this.deadline != null : "A deadline must have a parsed date";
     }
 
+    /**
+     * Returns the date and time by which this task should be completed.
+     *
+     * @return This task's deadline.
+     */
     public LocalDateTime getDeadline() {
         return this.deadline;
     }
 
+    /**
+     * Returns the deadline's type marker, status, description, and due date.
+     *
+     * @return Formatted deadline description.
+     */
     @Override
     public String toString() {
-        DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a");
-        return "[D] " + this.getCompletionStatus() + " " + this.getTask()
-            + " (by: " + deadline.format(displayFormatter) + ")";
+        return "[D] " + this.getCompletionStatus() + " " + this.getDescription()
+            + " (by: " + deadline.format(DateTimeFormats.DISPLAY_DATE_TIME) + ")";
     }
 
 }
