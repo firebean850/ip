@@ -3,7 +3,7 @@ package chatbot;
 import javafx.application.Application;
 
 /**
- * A launcher class to workaround classpath issues.
+ * Launches the JavaFX application and works around classpath issues.
  */
 public class Launcher {
 

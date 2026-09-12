@@ -1,6 +1,7 @@
 package chatbot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -49,5 +50,14 @@ class TaskTest {
         task.markIncomplete();
         task.markComplete();
         assertEquals("[X]", task.getCompletionStatus());
+    }
+
+    /**
+     * Null and blank descriptions should be rejected.
+     */
+    @Test
+    void task_nullOrBlankDescription_throwsInvalidInputException() {
+        assertThrows(InvalidInputException.class, () -> new Task(null));
+        assertThrows(InvalidInputException.class, () -> new Task("   "));
     }
 }

@@ -3,6 +3,7 @@ package chatbot;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
@@ -115,10 +116,10 @@ class StorageTest {
         Todo todo = assertInstanceOf(Todo.class, loadedTasks.get(0));
         Deadline deadline = assertInstanceOf(Deadline.class, loadedTasks.get(1));
         Event event = assertInstanceOf(Event.class, loadedTasks.get(2));
-        assertEquals("read book", todo.getTask());
-        assertEquals("submit report", deadline.getTask());
+        assertEquals("read book", todo.getDescription());
+        assertEquals("submit report", deadline.getDescription());
         assertEquals("2026-09-01T18:00", deadline.getDeadline().toString());
-        assertEquals("team meeting", event.getTask());
+        assertEquals("team meeting", event.getDescription());
         assertEquals("2026-09-02T10:00", event.getStart().toString());
         assertEquals("2026-09-02T11:00", event.getEnd().toString());
     }
@@ -153,5 +154,17 @@ class StorageTest {
         assertEquals(originalTasks.get(0).toString(), loadedTasks.get(0).toString());
         assertEquals(originalTasks.get(1).toString(), loadedTasks.get(1).toString());
         assertFalse(loadedTasks.get(1).getCompletionStatus().equals("[X]"));
+    }
+
+    /**
+     * Blank deadline and event date-time values should be rejected.
+     */
+    @Test
+    void taskDateTime_nullOrBlankValue_throwsInvalidInputException() {
+        assertThrows(InvalidInputException.class, () -> new Deadline("task", null));
+        assertThrows(InvalidInputException.class, () -> new Deadline("task", "   "));
+        assertThrows(InvalidInputException.class, () -> new Event("task", null, "2026-09-01 1800"));
+        assertThrows(InvalidInputException.class, () -> new Event("task", "2026-09-01 1700", "   "));
+        assertThrows(InvalidInputException.class, () -> new Event("task", "2026-09-02 1100", "2026-09-02 1000"));
     }
 }
