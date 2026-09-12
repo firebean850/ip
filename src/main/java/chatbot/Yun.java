@@ -91,7 +91,9 @@ public class Yun {
      */
     private String handleTodoCommand(String input) {
         String taskDesc = Parser.getTodoDescription(input);
-        taskList.add(new Todo(taskDesc));
+        Todo createdTodo = new Todo(taskDesc);
+        checkDuplicate(createdTodo);
+        taskList.add(createdTodo);
         storage.save(taskList);
         return ui.showAdded(taskList.get(taskList.size() - 1), taskList.size());
     }
@@ -102,7 +104,9 @@ public class Yun {
     private String handleDeadlineCommand(String input) {
         String deadlineDesc = Parser.getDeadlineDescription(input);
         String deadline = Parser.getDeadline(input);
-        taskList.add(new Deadline(deadlineDesc, deadline));
+        Deadline createdDeadline = new Deadline(deadlineDesc, deadline);
+        checkDuplicate(createdDeadline);
+        taskList.add(createdDeadline);
         storage.save(taskList);
         return ui.showAdded(taskList.get(taskList.size() - 1), taskList.size());
     }
@@ -114,9 +118,17 @@ public class Yun {
         String eventDesc = Parser.getEventDescription(input);
         String eventStart = Parser.getEventStart(input);
         String eventEnd = Parser.getEventEnd(input);
-        taskList.add(new Event(eventDesc, eventStart, eventEnd));
+        Event createdEvent = new Event(eventDesc, eventStart, eventEnd);
+        checkDuplicate(createdEvent);
+        taskList.add(createdEvent);
         storage.save(taskList);
         return ui.showAdded(taskList.get(taskList.size() - 1), taskList.size());
+    }
+
+    private void checkDuplicate(Task taskToBeAdded) {
+        if (taskList.isDuplicate(taskToBeAdded)) {
+            throw new InvalidInputException("Duplicate task detected! Beep Beep! Use 'list' to see all current tasks");
+        }
     }
 
     /**

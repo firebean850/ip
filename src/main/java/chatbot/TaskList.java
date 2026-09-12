@@ -56,4 +56,29 @@ public class TaskList implements Iterable<Task> {
         return tasks.iterator();
     }
 
+    public boolean isDuplicate(Task inputTask) {
+        boolean result = false;
+        for (Task task : tasks) {
+            if (result) {
+                break;
+            }
+            if (task.getClass() != inputTask.getClass()) {
+                continue;
+            }
+            if (task instanceof Deadline) {
+                Deadline d = (Deadline) task;
+                Deadline taskToBeChecked = (Deadline) inputTask;
+                result = result || d.isDuplicate(taskToBeChecked);
+            } else if (task instanceof Event) {
+                Event e = (Event) task;
+                Event taskToBeChecked = (Event) inputTask;
+                result = result || e.isDuplicate(taskToBeChecked);
+            } else if (task instanceof Todo) {
+                Todo t = (Todo) task;
+                Todo taskToBeChecked = (Todo) inputTask;
+                result = result || t.isDuplicate(taskToBeChecked);
+            }
+        }
+        return result;
+    }
 }
