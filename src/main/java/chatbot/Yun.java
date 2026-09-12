@@ -64,7 +64,12 @@ public class Yun {
                     return ui.showUnmarked(taskList.get(taskNo - 1));
                 case "todo":
                     String taskDesc = Parser.getTodoDescription(input);
+                    int previousSize = taskList.size();
                     taskList.add(new Todo(taskDesc));
+                    // add() appends, so the newly created task must be at the last valid index.
+                    assert taskList.size() == previousSize + 1 : "Adding a todo must increase the task count by one";
+                    assert taskList.get(previousSize).getTask().equals(taskDesc)
+                        : "The appended todo must retain its description";
                     storage.save(taskList);
                     return ui.showAdded(taskList.get(taskList.size() - 1), taskList.size());
                 case "deadline":

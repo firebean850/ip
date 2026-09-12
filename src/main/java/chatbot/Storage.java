@@ -34,11 +34,16 @@ public class Storage {
                 String[] lines = allLines.toArray(String[]::new);
                 for (int i = 0; i < lines.length; i++) {
                     String[] parts = lines[i].split("\\|");
+                    // taskList.txt is an internal format produced by save(); each record must match its type.
+                    assert parts.length >= 3 : "Saved task record must contain a type, status, and description";
                     if (parts[0].equals("T")) {
+                        assert parts.length == 3 : "Todo record has an unexpected number of fields";
                         taskList.add(new Todo(parts[2]));
                     } else if (parts[0].equals("D")) {
+                        assert parts.length == 4 : "Deadline record has an unexpected number of fields";
                         taskList.add(new Deadline(parts[2], parts[3]));
                     } else {
+                        assert parts[0].equals("E") && parts.length == 5 : "Event record has an unexpected format";
                         taskList.add(new Event(parts[2], parts[3], parts[4]));
                     }
                     if (parts[1].equals("[X]")) {

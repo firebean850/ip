@@ -30,6 +30,14 @@ public class Event extends Task {
             throw new InvalidInputException("Invalid datetime format. Please input the datetimes in this format:\n"
                 + "YYYY-MM-DD HHMM");
         }
+
+        if (this.end.isBefore(this.start)) {
+            throw new InvalidInputException("Event's end time cannot be before its start time, please try again");
+        }
+
+        // Events are expected to describe a time interval, not an interval running backwards.
+        assert this.start != null && this.end != null : "An event must have parsed start and end times";
+        assert !this.end.isBefore(this.start) : "An event must end at or after it starts";
     }
 
     public LocalDateTime getStart() {
