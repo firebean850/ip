@@ -27,6 +27,8 @@ public class Deadline extends Task {
             throw new InvalidInputException("Invalid datetime format. Please input the datetime in this format:\n"
                 + DateTimeFormats.INPUT_FORMAT);
         }
+        // The exception above ensures a Deadline never exists without a parsed date.
+        assert this.deadline != null : "A deadline must have a parsed date";
     }
 
     /**
