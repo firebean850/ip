@@ -14,6 +14,16 @@ public class Todo extends Task {
         super(input);
     }
 
+     /**
+     * Checks if a given event is a duplicate of current object.
+     * 
+     * @param t Todo to be checked against current instance.
+     * @return True if input todo has same description as current object, False otherwise.
+     */
+    public boolean isDuplicate(Todo t) {
+        return super.hasSameDescription(t.getDescription());
+    }
+
     /**
      * Returns the todo's type marker, completion status, and description.
      *

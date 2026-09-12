@@ -8,7 +8,7 @@ public class Task {
     private static final String INCOMPLETE_INDICATOR = "[ ]";
 
     private final String description;
-    private boolean completed;
+    private boolean isCompleted;
 
     /**
      * Initialises a new Task object with the given task description
@@ -25,14 +25,14 @@ public class Task {
      * Marks the task as complete.
      */
     public void markComplete() {
-        completed = true;
+        isCompleted = true;
     }
 
     /**
      * Marks the task as incomplete.
      */
     public void markIncomplete() {
-        completed = false;
+        isCompleted = false;
     }
 
     /**
@@ -40,7 +40,7 @@ public class Task {
      * @return A matching string to indicate if the task is completed or not.
      */
     public String getCompletionStatus() {
-        if (completed) {
+        if (isCompleted) {
             return COMPLETE_INDICATOR;
         }
         return INCOMPLETE_INDICATOR;
@@ -52,6 +52,16 @@ public class Task {
      */
     public String getDescription() {
         return this.description;
+    }
+
+    /**
+     * Checks if the input task has the same description as the current object.
+     * 
+     * @param input Description of the task to be checked against current instance's description.
+     * @return True if input task has same description as current object, false otherwise.
+     */
+    public boolean hasSameDescription(String input) {
+        return this.description.equals(input);
     }
 
     /**

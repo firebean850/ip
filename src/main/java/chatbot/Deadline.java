@@ -41,6 +41,17 @@ public class Deadline extends Task {
     }
 
     /**
+     * Checks if a given deadline is a duplicate of the current object.
+     * 
+     * @param d Input deadline to compare against current instance.
+     * @return True if input deadline has the same deadline and description as current object, False otherwise.
+     */
+    public boolean isDuplicate(Deadline d) {
+        return super.hasSameDescription(d.getDescription()) &&
+            this.deadline.equals(d.getDeadline());
+    }
+
+    /**
      * Returns the deadline's type marker, status, description, and due date.
      *
      * @return Formatted deadline description.
