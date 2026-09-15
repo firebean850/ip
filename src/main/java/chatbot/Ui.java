@@ -18,7 +18,7 @@ public class Ui {
      * @return Welcome message with the application banner.
      */
     public String showWelcomeMessage() {
-        return BANNER + "\nHello! I'm Yun.\nWhat can I do for you?\n";
+        return BANNER + "\nHello! I'm Yun.\nWhat can I do for you?\nYou can use 'help' to see all commands :)";
     }
 
     /**
@@ -27,7 +27,7 @@ public class Ui {
      * @return Exit message.
      */
     public String showExitMessage() {
-        return "Bye. Hope to see you again soon!\n\n";
+        return "Buh bai. Cya again soon!\n\n";
     }
 
     /**
@@ -47,7 +47,7 @@ public class Ui {
      * @return Formatted task list.
      */
     public String showTasks(TaskList taskList) {
-        StringBuilder result = new StringBuilder("Here are the tasks in your list:\n");
+        StringBuilder result = new StringBuilder("Okai here are the tasks in your list:\n");
         for (int i = 0; i < taskList.size(); i++) {
             result.append(i + 1).append(".").append(taskList.get(i)).append("\n");
         }
@@ -62,7 +62,7 @@ public class Ui {
      * @return Formatted matching tasks.
      */
     public String showMatchingTasks(TaskList taskList, String keyword) {
-        StringBuilder result = new StringBuilder("Here are the matching tasks in your list:\n");
+        StringBuilder result = new StringBuilder("Bet here's what we pulled up from yo list:\n");
         int count = 1;
         String searchTerm = keyword.toLowerCase();
         for (Task task : taskList) {
@@ -81,7 +81,7 @@ public class Ui {
      * @return Formatted confirmation message.
      */
     public String showMarked(Task task) {
-        return "Nice! I've marked this task as done:\n" + task.toString()
+        return "Nice one broski! I've marked this task as done for ya:\n" + task.toString()
             + "\n\n";
     }
 
@@ -92,7 +92,7 @@ public class Ui {
      * @return Formatted confirmation message.
      */
     public String showUnmarked(Task task) {
-        return "OK, I've marked this task as not done yet:\n"
+        return "Aw man ok lemme mark this undone:\n"
             + task.toString() + "\n\n";
     }
 
@@ -104,9 +104,9 @@ public class Ui {
      * @return Formatted confirmation message.
      */
     public String showAdded(Task task, int size) {
-        return "Got it. I've added this task:\n"
+        return "Bet. I've added this task:\n"
             + task.toString()
-            + "\nNow you have " + size + " task(s) in the list." + "\n\n";
+            + "\n\nNow you have " + size + " task(s) in the list." + "\n\n";
     }
 
     /**
@@ -117,9 +117,19 @@ public class Ui {
      * @return Formatted confirmation message.
      */
     public String showDeleted(Task task, int newSize) {
-        return "Noted. I've removed this task:\n"
+        return "Ok! I've removed this task:\n"
             + task.toString()
-            + "\nNow you have " + newSize + " task(s) in the list." + "\n\n";
+            + "\n\nNow you have " + newSize + " task(s) in the list." + "\n\n";
+    }
+
+    /**
+     * Returns a message showing a list of all commands.
+     *
+     * @return List of all commands.
+     */
+    public String showHelp() {
+        return "Ok! Here is the list of all available commands:\n"
+            + "on, find, mark, unmark, delete, todo, event, deadline, bye, list";
     }
 
     /**
@@ -134,7 +144,7 @@ public class Ui {
         try {
             LocalDate date = LocalDate.parse(dateText, DateTimeFormats.DATE);
             StringBuilder result = new StringBuilder(
-                "Here are the list of events and deadlines occurring on "
+                "Ok I've pulled up the list of events and deadlines occurring on "
                     + date.format(DateTimeFormats.DISPLAY_DATE) + ":\n"
             );
             int count = 1;
@@ -150,7 +160,7 @@ public class Ui {
             }
             return result.append("\n").toString();
         } catch (DateTimeParseException e) {
-            throw new InvalidInputException("Please input a date in the format YYYY-MM-DD");
+            throw new InvalidInputException("Broski please input a date in the format YYYY-MM-DD");
         }
     }
 
@@ -175,4 +185,6 @@ public class Ui {
 
         return false;
     }
+
+
 }

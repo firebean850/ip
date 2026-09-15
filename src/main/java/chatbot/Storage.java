@@ -43,7 +43,7 @@ public class Storage {
             try (Stream<String> allLines = Files.lines(filePath)) {
                 convertLinesToTasks(allLines, taskList);
             } catch (IOException e) {
-                System.out.println("The chatbot has encountered an error. Please try again later.");
+                System.out.println("Sorry! Apparently I have encountered an error. Please try again later!");
             }
         }
         return taskList;

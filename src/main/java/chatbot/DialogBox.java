@@ -9,10 +9,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 
 /**
  * Represents a dialog box consisting of an ImageView to represent the speaker's face
@@ -20,7 +23,7 @@ import javafx.scene.layout.HBox;
  */
 public class DialogBox extends HBox {
     @FXML
-    private Label dialog;
+    private VBox dialogContainer;
     @FXML
     private ImageView displayPicture;
 
@@ -40,7 +43,25 @@ public class DialogBox extends HBox {
             throw new IllegalStateException("Unable to load DialogBox.fxml", e);
         }
 
-        dialog.setText(text);
+        Label message = new Label(text);
+        message.setWrapText(true);
+        message.setMaxWidth(500);
+        message.setTextFill(Color.WHITE);
+        message.getStyleClass().add("message-text");
+        dialogContainer.getChildren().add(message);
+        dialogContainer.setMinHeight(Region.USE_PREF_SIZE);
+        dialogContainer.setMaxHeight(Region.USE_PREF_SIZE);
+        if (text.startsWith("\\ \\ / /|")) {
+            int bodyStart = text.indexOf("\n\n");
+            dialogContainer.getChildren().clear();
+            Label banner = new Label(text.substring(0, bodyStart + 2));
+            banner.getStyleClass().add("banner-text");
+            Label intro = new Label(text.substring(bodyStart + 2));
+            intro.setWrapText(true);
+            intro.setMaxWidth(500);
+            intro.getStyleClass().add("message-text");
+            dialogContainer.getChildren().addAll(banner, intro);
+        }
         displayPicture.setImage(img);
     }
 
@@ -52,7 +73,7 @@ public class DialogBox extends HBox {
         Collections.reverse(tmp);
         getChildren().setAll(tmp);
         setAlignment(Pos.TOP_LEFT);
-        dialog.getStyleClass().add("reply-label");
+        dialogContainer.getStyleClass().add("reply-label");
     }
 
     /**

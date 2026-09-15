@@ -14,6 +14,7 @@ public class Yun {
     private static final String EVENT_COMMAND = "event";
     private static final String DELETE_COMMAND = "delete";
     private static final String ON_COMMAND = "on";
+    private static final String HELP_COMMAND = "help";
 
     private Storage storage;
     private Ui ui;
@@ -66,7 +67,8 @@ public class Yun {
     private String handleMarkCommand(String input) {
         int taskNumber = Parser.getMarkOrUnmarkTaskNumber(input);
         if (taskNumber > taskList.size() || taskNumber <= 0) {
-            throw new InvalidInputException("Sorry, the task number you entered was invalid. Please try again.");
+            throw new InvalidInputException("Heyo! The task number you entered was invalid."
+                + "Use list to see your curr list");
         }
         taskList.get(taskNumber - 1).markComplete();
         storage.save(taskList);
@@ -79,7 +81,8 @@ public class Yun {
     private String handleUnmarkCommand(String input) {
         int taskNo = Parser.getMarkOrUnmarkTaskNumber(input);
         if (taskNo > taskList.size() || taskNo <= 0) {
-            throw new InvalidInputException("Sorry, the task number you entered was invalid.");
+            throw new InvalidInputException("Heyo! The task number you entered was invalid."
+                + "Use list to see your curr list");
         }
         taskList.get(taskNo - 1).markIncomplete();
         storage.save(taskList);
@@ -127,7 +130,7 @@ public class Yun {
 
     private void checkDuplicate(Task taskToBeAdded) {
         if (taskList.isDuplicate(taskToBeAdded)) {
-            throw new InvalidInputException("Duplicate task detected! Beep Beep! Use 'list' to see all current tasks");
+            throw new InvalidInputException("Heyo duplicate task detected! Use 'list' to see all current tasks");
         }
     }
 
@@ -137,7 +140,7 @@ public class Yun {
     private String handleDeleteCommand(String input) {
         int taskId = Parser.getDeleteTaskNumber(input);
         if (taskId <= 0 || taskId > taskList.size()) {
-            throw new InvalidInputException("The task number must be more than 0 and cannot be more than "
+            throw new InvalidInputException("yoooo your task number must be more than 0 and cannot be more than "
                     + "the number of tasks in the list. Please try again.");
         }
         String deleteMessage = ui.showDeleted(taskList.get(taskId - 1), taskList.size() - 1);
@@ -158,7 +161,8 @@ public class Yun {
      * Throws an exception for an unrecognised command.
      */
     private String handleInvalidInput() {
-        throw new InvalidInputException("Yo! Invalid input bro, please try again!");
+        throw new InvalidInputException("Yo! Invalid input bro, please try again!"
+            + " You can use help to see all commands!");
     }
 
     /**
@@ -166,6 +170,13 @@ public class Yun {
      */
     private String handleException(Exception e) {
         return ui.showError(e);
+    }
+
+    /**
+     * Returns a String list of all commands available.
+     */
+    private String handleHelp() {
+        return ui.showHelp();
     }
 
     /**
@@ -194,6 +205,8 @@ public class Yun {
                 return handleDeleteCommand(input);
             case ON_COMMAND:
                 return handleOnCommand(input);
+            case HELP_COMMAND:
+                return handleHelp();
             default:
                 return handleInvalidInput();
         }
