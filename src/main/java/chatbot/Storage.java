@@ -43,7 +43,7 @@ public class Storage {
             try (Stream<String> allLines = Files.lines(filePath)) {
                 convertLinesToTasks(allLines, taskList);
             } catch (IOException e) {
-                System.out.println("Sorry! Apparently I have encountered an error. Please try again later!");
+                throw new IllegalStateException("Yo broski I was unable to load tasks from " + filePath, e);
             }
         }
         return taskList;
@@ -147,7 +147,7 @@ public class Storage {
                 writer.write(System.lineSeparator());
             }
         } catch (IOException e) {
-            System.out.println("Failed to save tasks.");
+            throw new IllegalStateException("Yo broski I was unable to save tasks to " + filePath, e);
         }
     }
 
