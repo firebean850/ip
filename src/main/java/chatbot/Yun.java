@@ -79,7 +79,7 @@ public class Yun {
         int taskNumber = Parser.getMarkOrUnmarkTaskNumber(input);
         if (taskNumber > taskList.size() || taskNumber <= 0) {
             throw new InvalidInputException("Heyo! The task number you entered was invalid."
-                + "Use list to see your curr list");
+                + " Use list to see your curr list");
         }
         taskList.get(taskNumber - 1).markComplete();
         storage.save(taskList);
@@ -93,7 +93,7 @@ public class Yun {
         int taskNo = Parser.getMarkOrUnmarkTaskNumber(input);
         if (taskNo > taskList.size() || taskNo <= 0) {
             throw new InvalidInputException("Heyo! The task number you entered was invalid."
-                + "Use list to see your curr list");
+                + " Use list to see your curr list");
         }
         taskList.get(taskNo - 1).markIncomplete();
         storage.save(taskList);
@@ -235,8 +235,7 @@ public class Yun {
         } catch (InvalidInputException e) {
             return handleException(e);
         } catch (IllegalStateException e) {
-            return "Sorry bro, I couldn't access the task file. Please check its permissions or location!" +
-                " taskList.txt should be in the program's current working directory!";
+            return "Sorry bro, I couldn't access the task file. Please check its permissions";
         }
     }
 }

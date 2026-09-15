@@ -62,7 +62,7 @@ public class Storage {
             String line = lines.next();
             String[] parts = line.split(FIELD_DELIMITER, -1);
             if (hasInvalidRecordFormat(parts)) {
-                throw new InvalidInputException("Invalid saved task record @ line" + lineNumber + ": " + line);
+                throw new InvalidInputException("Invalid saved task record @ line " + lineNumber + ": " + line);
             }
             String commandIndicator = parts[0];
             String completionIndicator = parts[1];
@@ -75,7 +75,7 @@ public class Storage {
             } else if (isEventSavedRecord(commandIndicator, partsLength)) {
                 taskList.add(new Event(parts[2], parts[3], parts[4]));
             } else {
-                throw new InvalidInputException("Invalid saved task record @ line" + lineNumber + ": " + line);
+                throw new InvalidInputException("Invalid saved task record @ line " + lineNumber + ": " + line);
             }
 
             if (completionIndicator.equals(COMPLETED_INDICATOR)) {
