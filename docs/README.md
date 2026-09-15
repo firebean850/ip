@@ -1,6 +1,6 @@
 # Yun User Guide
 
-// Product screenshot goes here
+<img width="729" height="909" alt="Ui" src="https://github.com/user-attachments/assets/bb5e58ec-46e8-4787-81a3-a70807fa7b95" />
 
 Yun is an interactive and friendly chatbot that helps you manage todos, deadlines, and events!
 
