@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -166,5 +167,20 @@ class StorageTest {
         assertThrows(InvalidInputException.class, () -> new Event("task", null, "2026-09-01 1800"));
         assertThrows(InvalidInputException.class, () -> new Event("task", "2026-09-01 1700", "   "));
         assertThrows(InvalidInputException.class, () -> new Event("task", "2026-09-02 1100", "2026-09-02 1000"));
+    }
+
+    /**
+     * Malformed saved records should fail loudly instead of silently creating corrupted tasks.
+     */
+    @Test
+    void load_malformedRecords_throwsInvalidInputException() {
+        Storage storage = new Storage(temporaryDirectory.resolve("tasks.txt").toString());
+
+        assertThrows(InvalidInputException.class, () ->
+            storage.convertLinesToTasks(Stream.of("X|[ ]|unknown"), new TaskList()));
+        assertThrows(InvalidInputException.class, () ->
+            storage.convertLinesToTasks(Stream.of("T|[?]|task"), new TaskList()));
+        assertThrows(InvalidInputException.class, () ->
+            storage.convertLinesToTasks(Stream.of("D|[ ]|missing date"), new TaskList()));
     }
 }

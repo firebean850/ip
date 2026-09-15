@@ -24,8 +24,19 @@ public class Yun {
      * Creates a Yun chatbot and loads its saved task list.
      */
     public Yun() {
-        storage = new Storage("taskList.txt");
-        ui = new Ui();
+        this(new Storage("taskList.txt"), new Ui());
+    }
+
+    /**
+     * Creates a Yun instance with supplied collaborators, which also allows command handling to be tested
+     * without changing the user's task file.
+     *
+     * @param storage Storage implementation used for persistence.
+     * @param ui User-interface formatter.
+     */
+    Yun(Storage storage, Ui ui) {
+        this.storage = storage;
+        this.ui = ui;
         taskList = storage.load();
     }
 
