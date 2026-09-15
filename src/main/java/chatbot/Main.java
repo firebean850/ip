@@ -46,6 +46,7 @@ public class Main extends Application {
 
             Scene scene = new Scene(ap);
             stage.setScene(scene);
+            stage.setTitle("Yun");
             stage.show();
         } catch (IOException e) {
             throw new IllegalStateException("Unable to load MainWindow.fxml", e);

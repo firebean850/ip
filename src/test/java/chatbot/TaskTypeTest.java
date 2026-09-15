@@ -39,7 +39,7 @@ class TaskTypeTest {
         assertEquals("2026-09-01T18:00", first.getDeadline().toString());
         assertTrue(first.isDuplicate(same));
         assertFalse(first.isDuplicate(differentTime));
-        assertEquals("[D] [ ] submit report (by: 01 Sept 2026 6:00 pm)", first.toString());
+        assertEquals("[D] [ ] submit report (by: 01 Sep 2026 6:00 PM)", first.toString());
     }
 
     @Test
@@ -52,7 +52,7 @@ class TaskTypeTest {
         assertEquals("2026-09-02T11:00", first.getEnd().toString());
         assertTrue(first.isDuplicate(same));
         assertFalse(first.isDuplicate(differentEnd));
-        assertEquals("[E] [ ] team meeting (from: 02 Sept 2026 10:00 am to: 02 Sept 2026 11:00 am)",
+        assertEquals("[E] [ ] team meeting (from: 02 Sep 2026 10:00 AM to: 02 Sep 2026 11:00 AM)",
             first.toString());
     }
 

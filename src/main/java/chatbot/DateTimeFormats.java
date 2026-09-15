@@ -3,6 +3,7 @@ package chatbot;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.ResolverStyle;
+import java.util.Locale;
 
 /**
  * Provides shared date and time formats for the chatbot.
@@ -14,7 +15,7 @@ final class DateTimeFormats {
         .withResolverStyle(ResolverStyle.STRICT);
 
     static final DateTimeFormatter DISPLAY_DATE_TIME =
-        DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a");
+        DateTimeFormatter.ofPattern("dd MMM yyyy h:mm a", Locale.ENGLISH);
 
     static final DateTimeFormatter DATE = new DateTimeFormatterBuilder()
         .appendPattern("uuuu-MM-dd")
