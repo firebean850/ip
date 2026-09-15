@@ -119,8 +119,8 @@ public class Parser {
                 || !commandParts[1].contains(EVENT_START_MARKER)
                 || !commandParts[1].contains(EVENT_END_MARKER)) {
             throw new InvalidInputException(
-                "Eh bro, you gotta provide a description, start and end date/time for the event command in this format:\n"
-                + "event <task desc> /from <start> /to <end> without angular brackets."
+                "Eh bro, you gotta provide a description, start and end date/time for the event command in this"
+                    + "format:\nevent <task desc> /from <start> /to <end> without angular brackets."
             );
         }
 
@@ -132,8 +132,8 @@ public class Parser {
                 || parts[1].trim().isEmpty()
                 || parts[2].trim().isEmpty()) {
             throw new InvalidInputException(
-                "Eh bro, you gotta provide a description, start and end date/time for the event command in this format:\n"
-                + "event <task desc> /from <start> /to <end> without angular brackets."
+                "Eh bro, you gotta provide a description, start and end date/time for the event command in this"
+                    + "format:\nevent <task desc> /from <start> /to <end> without angular brackets."
             );
         }
 
