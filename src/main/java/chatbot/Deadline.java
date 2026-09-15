@@ -18,14 +18,14 @@ public class Deadline extends Task {
     public Deadline(String description, String deadlineString) {
         super(description);
         if (deadlineString == null || deadlineString.isBlank()) {
-            throw new InvalidInputException("Invalid datetime format. Please input the datetime in this format:\n"
-                + DateTimeFormats.INPUT_FORMAT);
+            throw new InvalidInputException("Hey bro you gave left the datetime blank. Please"
+                + " input the datetime in this format:\n" + DateTimeFormats.INPUT_FORMAT);
         }
         try {
             this.deadline = LocalDateTime.parse(deadlineString, DateTimeFormats.STORAGE);
         } catch (DateTimeParseException e) {
-            throw new InvalidInputException("Invalid datetime format. Please input the datetime in this format:\n"
-                + DateTimeFormats.INPUT_FORMAT);
+            throw new InvalidInputException("Hey bro you gave the deadline in an invalid datetime format. Please"
+                + " input the datetime in this format:\n" + DateTimeFormats.INPUT_FORMAT);
         }
         // The exception above ensures a Deadline never exists without a parsed date.
         assert this.deadline != null : "A deadline must have a parsed date";

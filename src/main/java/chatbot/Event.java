@@ -21,22 +21,23 @@ public class Event extends Task {
         super(description);
         if (startString == null || startString.isBlank()
                 || endString == null || endString.isBlank()) {
-            throw new InvalidInputException("Invalid datetime format. Please input the datetimes in this format:\n"
-                + DateTimeFormats.INPUT_FORMAT);
+            throw new InvalidInputException("Hey bro you left the datetime blank after the commands. You gotta"
+                + " input the datetimes in this format:\n" + DateTimeFormats.INPUT_FORMAT);
         }
         try {
             this.start = LocalDateTime.parse(startString, DateTimeFormats.STORAGE);
             this.end = LocalDateTime.parse(endString, DateTimeFormats.STORAGE);
             if (this.end.isBefore(this.start)) {
-                throw new InvalidInputException("The event end time cannot be before its start time.");
+                throw new InvalidInputException("Bro your event end time cannot be before its start time.");
             }
         } catch (DateTimeParseException e) {
-            throw new InvalidInputException("Invalid datetime format. Please input the datetimes in this format:\n"
-                + DateTimeFormats.INPUT_FORMAT);
+            throw new InvalidInputException("Hey bro you gave the datetime in an invalid format,"
+                + " you gotta input the datetimes in this format:\n" + DateTimeFormats.INPUT_FORMAT);
         }
 
         if (this.end.isBefore(this.start)) {
-            throw new InvalidInputException("Event's end time cannot be before its start time, please try again");
+            throw new InvalidInputException("Hey bro your event's end time cannot be before its start time,"
+                + " please try again :)");
         }
 
         // Events are expected to describe a time interval, not an interval running backwards.

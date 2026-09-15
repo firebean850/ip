@@ -1,12 +1,22 @@
-.label {
-    background:black;
-    -fx-font-family: "Monospaced";
-    -fx-background-color: background;
+.dialog-label {
+    -fx-background-color: black;
     -fx-border-color: #d55e00 #009e73 #cc79a7 #0072b2;
     -fx-border-width: 2px;
     -fx-background-radius: 1em 1em 0 1em;
     -fx-border-radius: 1em 1em 0 1em;
-    -fx-text-fill: ladder(background, white 49%, black 50%);
+    -fx-padding: 6px;
+}
+
+.message-text {
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+}
+
+.banner-text {
+    -fx-font-family: "Monospaced";
+    -fx-font-size: 10px;
+    -fx-text-fill: white;
 }
 
 .reply-label {
@@ -25,4 +35,3 @@
     /* Rotate image clockwise by degrees. */
     -fx-rotate: 0;
 }
-

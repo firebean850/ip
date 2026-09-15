@@ -33,7 +33,7 @@ public class Parser {
             }
             return Integer.parseInt(parsedInput[1].trim());
         } catch (NumberFormatException e) {
-            throw new InvalidInputException("Please key in a number after the mark/unmark command.");
+            throw new InvalidInputException("Bro you gotta key in a number after the mark/unmark command.");
         }
     }
 
@@ -76,8 +76,8 @@ public class Parser {
         if (commandParts.length < 2
                 || !commandParts[1].contains(DEADLINE_MARKER)) {
             throw new InvalidInputException(
-                "Sorry, please give the deadline command in this format:\n"
-                    + "deadline <task desc> /by <due date> without angular brackets."
+                "Eh bro you gotta give the deadline command in this format:\ndeadline <task desc> /by <due date>"
+                    + " without angular brackets."
             );
         }
 
@@ -86,8 +86,8 @@ public class Parser {
                 || parts[0].trim().isEmpty()
                 || parts[1].trim().isEmpty()) {
             throw new InvalidInputException(
-                "Sorry, please give the deadline command in this format:\ndeadline <task desc> /by <due date> without "
-                    + "angular brackets."
+                "Eh bro you gotta give the deadline command in this format:\ndeadline <task desc> /by <due date>"
+                    + " without angular brackets."
             );
         }
         return parts;
@@ -119,7 +119,7 @@ public class Parser {
                 || !commandParts[1].contains(EVENT_START_MARKER)
                 || !commandParts[1].contains(EVENT_END_MARKER)) {
             throw new InvalidInputException(
-                "Sorry, please provide a start and end date/time for the event command in this format:\n"
+                "Eh bro, you gotta provide a start and end date/time for the event command in this format:\n"
                 + "event <task desc> /from <start> /to <end> without angular brackets."
             );
         }
@@ -132,7 +132,7 @@ public class Parser {
                 || parts[1].trim().isEmpty()
                 || parts[2].trim().isEmpty()) {
             throw new InvalidInputException(
-                "Sorry, please provide a start and end date/time for the event command in this format:\n"
+                "Eh bro, you gotta provide a start and end date/time for the event command in this format:\n"
                 + "event <task desc> /from <start> /to <end> without angular brackets."
             );
         }
@@ -179,7 +179,7 @@ public class Parser {
     public static String getOnCommandDateText(String input) {
         String[] parsedInput = splitCommandAndArgument(input);
         if (parsedInput.length < 2) {
-            throw new InvalidInputException("Please provide a date in the format YYYY-MM-DD");
+            throw new InvalidInputException("Heyo! You gotta provide a date in the format YYYY-MM-DD");
         }
         return parsedInput[1].trim();
     }
@@ -194,7 +194,7 @@ public class Parser {
         String[] parsedInput = splitCommandAndArgument(input);
         if (parsedInput.length < 2
                 || parsedInput[1].trim().isEmpty()) {
-            throw new InvalidInputException("Please provide a keyword after the find command.");
+            throw new InvalidInputException("Heyo! You gotta provide a keyword after the find command.");
         }
         return parsedInput[1].trim();
     }
@@ -208,7 +208,7 @@ public class Parser {
      */
     private static String[] splitCommandAndArgument(String input) {
         if (input == null || input.isBlank()) {
-            throw new InvalidInputException("Input cannot be empty.");
+            throw new InvalidInputException("Yo your input cannot be empty!");
         }
 
         return input.trim().split(WHITESPACE_REGEX, 2);

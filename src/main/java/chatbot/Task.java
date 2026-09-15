@@ -16,7 +16,7 @@ public class Task {
      */
     public Task(String description) {
         if (description == null || description.isBlank()) {
-            throw new InvalidInputException("Task description cannot be empty.");
+            throw new InvalidInputException("Eh bro your task description cannot be empty.");
         }
         this.description = description.trim();
     }
