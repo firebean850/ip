@@ -56,7 +56,7 @@ public class Task {
 
     /**
      * Checks if the input task has the same description as the current object.
-     * 
+     *
      * @param input Description of the task to be checked against current instance's description.
      * @return True if input task has same description as current object, false otherwise.
      */

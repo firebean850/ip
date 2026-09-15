@@ -56,6 +56,13 @@ public class TaskList implements Iterable<Task> {
         return tasks.iterator();
     }
 
+    /**
+     * Takes in an inputTask and compares against all Tasks in the TaskList to check whether it is a duplicate.
+     *
+     * @param inputTask The input task to check.
+     * @return True if it is a duplicate task (of one of the existing tasks in list),
+     *     False, otherwise.
+     */
     public boolean isDuplicate(Task inputTask) {
         boolean result = false;
         for (Task task : tasks) {

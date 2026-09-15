@@ -64,15 +64,15 @@ public class Event extends Task {
 
     /**
      * Checks if a given event is a duplicate of current instance.
-     * 
+     *
      * @param e Event to be checked against current instance.
      * @return True if input event has same start duration, end duration and same task description as current object,
-     * False otherwise.
+     *     False otherwise.
      */
     public boolean isDuplicate(Event e) {
-        return super.hasSameDescription(e.getDescription()) && 
-            this.start.equals(e.getStart()) && 
-                this.end.equals(e.getEnd());
+        return super.hasSameDescription(e.getDescription())
+            && this.start.equals(e.getStart())
+            && this.end.equals(e.getEnd());
     }
 
     /**
