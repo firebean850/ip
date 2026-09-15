@@ -196,7 +196,7 @@ public class Yun {
     private String handle(String input) {
         String command = Parser.getCommand(input);
         switch (command) {
-            case BYE_COMMAND, "Bye":
+            case BYE_COMMAND:
                 return handleByeCommand();
             case LIST_COMMAND:
                 return handleListCommand();
@@ -234,6 +234,9 @@ public class Yun {
             return handle(input);
         } catch (InvalidInputException e) {
             return handleException(e);
+        } catch (IllegalStateException e) {
+            return "Sorry bro, I couldn't access the task file. Please check its permissions or location!" +
+                " taskList.txt should be in the program's current working directory!";
         }
     }
 }
