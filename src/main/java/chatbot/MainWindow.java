@@ -63,7 +63,7 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getYunDialog(chatbotReply, yunImage)
         );
         userInput.clear();
-        if (userText.trim().equalsIgnoreCase("bye")) {
+        if (Parser.getCommand(userText).equalsIgnoreCase("bye")) {
             closeAfterDelay();
         }
     }
