@@ -30,16 +30,28 @@ class UiTest {
     }
 
     @Test
-    void listTasksOnDate_includesDeadlinesAndEventEndpointsOnly() {
+    void listTasksOnDate_includesDeadlinesAndEveryDateOfMultiDayEvent() {
         TaskList tasks = new TaskList();
         tasks.add(new Todo("ordinary task"));
         tasks.add(new Deadline("deadline", "2026-09-01 1800"));
-        tasks.add(new Event("cross-day event", "2026-08-31 2300", "2026-09-01 0100"));
+        tasks.add(new Event("cross-day event", "2026-08-30 1000", "2026-09-02 1800"));
 
-        String result = ui.listTasksOnDate(tasks, "2026-09-01");
-        assertTrue(result.contains("deadline"));
-        assertTrue(result.contains("cross-day event"));
-        assertTrue(!result.contains("ordinary task"));
+        assertTrue(ui.listTasksOnDate(tasks, "2026-08-30").contains("cross-day event"));
+        assertTrue(ui.listTasksOnDate(tasks, "2026-08-31").contains("cross-day event"));
+        String middleDateResult = ui.listTasksOnDate(tasks, "2026-09-01");
+        assertTrue(middleDateResult.contains("deadline"));
+        assertTrue(middleDateResult.contains("cross-day event"));
+        assertTrue(!middleDateResult.contains("ordinary task"));
+        assertTrue(ui.listTasksOnDate(tasks, "2026-09-02").contains("cross-day event"));
+    }
+
+    @Test
+    void listTasksOnDate_excludesDatesOutsideMultiDayEvent() {
+        TaskList tasks = new TaskList();
+        tasks.add(new Event("cross-day event", "2026-08-30 1000", "2026-09-02 1800"));
+
+        assertTrue(!ui.listTasksOnDate(tasks, "2026-08-29").contains("cross-day event"));
+        assertTrue(!ui.listTasksOnDate(tasks, "2026-09-03").contains("cross-day event"));
     }
 
     @Test

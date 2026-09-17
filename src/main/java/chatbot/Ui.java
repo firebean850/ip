@@ -129,7 +129,7 @@ public class Ui {
      */
     public String showHelp() {
         return "Ok! Here is the list of all available commands:\n"
-            + "on, find, mark, unmark, delete, todo, event, deadline, bye, list";
+            + "on, find, mark, unmark, delete, todo, event, deadline, bye, list, help";
     }
 
     /**
@@ -179,8 +179,9 @@ public class Ui {
 
         if (task instanceof Event) {
             Event event = (Event) task;
-            return event.getStart().toLocalDate().equals(date)
-                || event.getEnd().toLocalDate().equals(date);
+            LocalDate eventStart = event.getStart().toLocalDate();
+            LocalDate eventEnd = event.getEnd().toLocalDate();
+            return !date.isBefore(eventStart) && !date.isAfter(eventEnd);
         }
 
         return false;

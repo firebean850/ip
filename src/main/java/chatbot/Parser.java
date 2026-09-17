@@ -68,7 +68,7 @@ public class Parser {
         if (parsedInput.length < 2 || parsedInput[1].trim().isEmpty()) {
             throw new InvalidInputException("Heyo! The description of a todo cannot be empty. Please try again.");
         }
-        return parsedInput[1].trim();
+        return validateDescription(parsedInput[1]);
     }
 
     private static String[] getDeadlineParts(String input) {
@@ -100,7 +100,7 @@ public class Parser {
      * @return Description of deadline.
      */
     public static String getDeadlineDescription(String input) {
-        return getDeadlineParts(input)[0].trim();
+        return validateDescription(getDeadlineParts(input)[0]);
     }
 
     /**
@@ -121,6 +121,15 @@ public class Parser {
             throw new InvalidInputException(
                 "Eh bro, you gotta provide a description, start and end date/time for the event command in this"
                     + "format:\nevent <task desc> /from <start> /to <end> without angular brackets."
+            );
+        }
+
+        int fromIndex = commandParts[1].indexOf(EVENT_START_MARKER);
+        int toIndex = commandParts[1].indexOf(EVENT_END_MARKER);
+
+        if (fromIndex == -1 || toIndex == -1 || fromIndex > toIndex) {
+            throw new InvalidInputException(
+                "Eh bro your /from must be before /to i.e.:\nevent <task desc> /from <start> /to <end>"
             );
         }
 
@@ -147,7 +156,7 @@ public class Parser {
      * @return Description of event.
      */
     public static String getEventDescription(String input) {
-        return getEventParts(input)[0].trim();
+        return validateDescription(getEventParts(input)[0]);
     }
 
     /**
@@ -214,4 +223,25 @@ public class Parser {
         return input.trim().split(WHITESPACE_REGEX, 2);
     }
 
+    /**
+     * Checks whether task description is empty or contains invalid characters.
+     *
+     * @param description Task description to check.
+     * @return Trimmed description if description is valid, else throws an InvalidInputException.
+     */
+    private static String validateDescription(String description) {
+        String trimmedDescription = description.trim();
+
+        if (trimmedDescription.isEmpty()) {
+            throw new InvalidInputException("Task descriptions cannot be empty.");
+        }
+
+        if (trimmedDescription.contains("|")) {
+            throw new InvalidInputException(
+                "Task descriptions cannot contain the | character."
+            );
+        }
+
+        return trimmedDescription;
+    }
 }
